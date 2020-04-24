@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/movies', 'MoviesController@index');
 Route::get('/movies/{movie}', 'MoviesController@show');
 Route::post('/movies', 'MoviesController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

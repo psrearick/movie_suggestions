@@ -50,10 +50,4 @@ class MoviesTest extends TestCase
         $attributes = factory('App\Movie')->raw(['description' => '']);
         $this->post('/movies', $attributes)->assertSessionHasErrors('description');
     }
-
-    public function test_a_movie_requires_an_owner()
-    {
-        $attributes = factory('App\Movie')->raw();
-        $this->post('/movies', $attributes)->assertSessionHasErrors('owner');
-    }
 }

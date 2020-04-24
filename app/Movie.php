@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Movie extends Model
 {
@@ -11,5 +12,10 @@ class Movie extends Model
     public function path()
     {
         return "/movies/{$this->id}";
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('User');
     }
 }

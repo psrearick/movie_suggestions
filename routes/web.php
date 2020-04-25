@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/profiles', 'ProfileController@index');
+Route::get('/profiles/{profile}', 'ProfileController@show');
+Route::post('/profiles', 'ProfileController@store');
+
 Route::get('/movies', 'MoviesController@index');
 Route::get('/movies/{movie}', 'MoviesController@show');
 Route::post('/movies', 'MoviesController@store');

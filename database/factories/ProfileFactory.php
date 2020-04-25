@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Profile::class, function (Faker $faker) {
     return [
+        'profile_name' => $faker->word,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'date_of_birth' => $faker->date

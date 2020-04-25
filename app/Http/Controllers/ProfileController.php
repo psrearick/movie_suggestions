@@ -14,7 +14,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        $profiles = Profile::all();
+
+        return view('profiles.index', compact('profiles'));
     }
 
     /**
@@ -35,7 +37,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes = request()->validate([
+            'profile_name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'date_of_birth' => 'required'
+        ]);
+
+        Profile::create($attributes);
+
+        return redirect('/profiles');
     }
 
     /**
@@ -46,7 +57,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        return view('profiles.show', compact('profile'));
     }
 
     /**

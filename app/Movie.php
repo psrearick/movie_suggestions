@@ -13,9 +13,4 @@ class Movie extends Model
     {
         return "/movies/{$this->id}";
     }
-
-    public function users()
-    {
-        return $this->belongsToMany('User');
-    }
 }

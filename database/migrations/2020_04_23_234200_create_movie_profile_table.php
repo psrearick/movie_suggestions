@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovieUserTable extends Migration
+class CreateMovieProfileTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateMovieUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('movie_user', function (Blueprint $table) {
+        Schema::create('movie_profile', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('profile_id');
             $table->unsignedBigInteger('movie_id');
             $table->boolean('favorite');
             $table->boolean('watch_list');
-            $table->boolean('seen');
+            $table->integer('seen');
             $table->integer('rating');
             $table->timestamps();
 
-            $table->unique(['user_id', 'movie_id']);
+            $table->unique(['profile_id', 'movie_id']);
             $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
         });
     }
 
@@ -36,6 +36,6 @@ class CreateMovieUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movie_favorites');
+        Schema::dropIfExists('movie_profile');
     }
 }

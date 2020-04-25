@@ -12,4 +12,9 @@ class Profile extends Model
     {
         return "/profiles/{$this->id}";
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

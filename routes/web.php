@@ -17,14 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/profiles', 'ProfileController@index');
-Route::get('/profiles/{profile}', 'ProfileController@show');
-Route::post('/profiles', 'ProfileController@store');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/profiles', 'ProfileController@index');
+    Route::get('profiles/create', 'ProfileController@create');
+    Route::get('/profiles/{profile}', 'ProfileController@show');
+    Route::post('/profiles', 'ProfileController@store');
+
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+
 
 Route::get('/movies', 'MoviesController@index');
 Route::get('/movies/{movie}', 'MoviesController@show');
 Route::post('/movies', 'MoviesController@store');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

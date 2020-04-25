@@ -15,8 +15,12 @@ class CreateMovieProfileTable extends Migration
     {
         Schema::create('movie_profile', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profile_id');
-            $table->unsignedBigInteger('movie_id');
+            $table->foreignId('profile_id')
+                ->constrained()
+                ->onDelete('cascade');
+            $table->foreignId('movie_id')
+                ->constrained()
+                ->onDelete('cascade');
             $table->boolean('favorite');
             $table->boolean('watch_list');
             $table->integer('seen');
@@ -24,8 +28,6 @@ class CreateMovieProfileTable extends Migration
             $table->timestamps();
 
             $table->unique(['profile_id', 'movie_id']);
-            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
-            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
         });
     }
 

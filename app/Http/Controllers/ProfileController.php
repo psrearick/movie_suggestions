@@ -14,7 +14,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::all();
+        $profiles = auth()->user()->profiles;
 
         return view('profiles.index', compact('profiles'));
     }
@@ -26,7 +26,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('profiles.create');
     }
 
     /**
@@ -41,10 +41,12 @@ class ProfileController extends Controller
             'profile_name' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'date_of_birth' => 'required'
+            'date_of_birth' => 'required',
         ]);
 
-        Profile::create($attributes);
+        // $attributes['user_id'] = auth()->id();
+
+        auth()->user()->profiles()->create($attributes);
 
         return redirect('/profiles');
     }
@@ -57,6 +59,10 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
+        if (auth()->user()->isNot($profile->user)) {
+            abort(403);
+        }
+
         return view('profiles.show', compact('profile'));
     }
 

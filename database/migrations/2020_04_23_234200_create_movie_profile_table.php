@@ -21,10 +21,10 @@ class CreateMovieProfileTable extends Migration
             $table->foreignId('movie_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->boolean('favorite');
-            $table->boolean('watch_list');
-            $table->integer('seen');
-            $table->integer('rating');
+            $table->boolean('favorite')->nullable();
+            $table->boolean('watch_list')->nullable();
+            $table->integer('seen')->nullable();
+            $table->integer('rating')->nullable();
             $table->timestamps();
 
             $table->unique(['profile_id', 'movie_id']);

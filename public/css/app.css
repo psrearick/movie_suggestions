@@ -640,18 +640,44 @@ video {
 }
 
 .card {
-  background-color: #edf2f7;
   border-radius: 0.5rem;
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-  color: #4a5568;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-.card:hover {
+.card-light,
+.card-btn-light {
+  border-radius: 0.5rem;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #edf2f7;
+  color: #4a5568;
+}
+
+.card-btn-light:hover {
   background-color: #e2e8f0;
+}
+
+.card-dark,
+.card-btn-dark {
+  border-radius: 0.5rem;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #1a202c;
+  color: #edf2f7;
+}
+
+.card-btn-dark:hover {
+  background-color: #4a5568;
 }
 
 .space-y-0 > :not(template) ~ :not(template) {

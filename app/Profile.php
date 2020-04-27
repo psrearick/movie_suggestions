@@ -17,4 +17,16 @@ class Profile extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function movies()
+    {
+        return $this
+            ->belongsToMany('App\Movie')
+            ->withPivot('watch_list', 'favorite', 'seen', 'rating');
+    }
+
+    public function addMovie($movie, $vars)
+    {
+        return $this->movies()->attach($movie, array_filter($vars));
+    }
 }

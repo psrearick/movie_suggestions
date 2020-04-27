@@ -20,11 +20,25 @@
 }
 
 .card {
-    @apply bg-gray-200 rounded-lg shadow-inner text-gray-700 px-6 py-12;
+    @apply rounded-lg shadow-inner px-6 py-12;
 }
 
-.card:hover {
+.card-light,
+.card-btn-light {
+    @apply card bg-gray-200 text-gray-700;
+}
+
+.card-btn-light:hover {
     @apply bg-gray-300;
+}
+
+.card-dark,
+.card-btn-dark {
+    @apply card bg-gray-900 text-gray-200;
+}
+
+.card-btn-dark:hover {
+    @apply bg-gray-700;
 }
 
 @tailwind utilities;

@@ -23,4 +23,16 @@ class ProfileTest extends TestCase
 
         $this->assertInstanceOf('App\User', $profile->user);
     }
+
+    /** @test */
+    public function it_can_add_a_movie()
+    {
+        $profile = factory('App\Profile')->create();
+        $movie = factory('App\Movie')->create();
+
+        $profile->addMovie($movie->id, ['favorite' => true]);
+
+        $this->assertCount(1, $profile->movies);
+        $this->assertTrue($profile->movies->contains($movie->id));
+    }
 }

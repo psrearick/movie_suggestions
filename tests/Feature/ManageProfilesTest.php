@@ -15,7 +15,7 @@ class ProfilesTest extends TestCase
     public function a_user_can_create_a_profile()
     {
         $this->withoutExceptionHandling();
-        $this->actingAs(factory('App\User')->create());
+        $this->authenticate();
         $attributes = [
             'profile_name' => $this->faker->word,
             'first_name' => $this->faker->firstName,
@@ -31,7 +31,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_user_can_view_their_profile()
     {
-        $this->be(factory('App\User')->create());
+        $this->authenticate();
         $this->withoutExceptionHandling();
         $profile = factory('App\Profile')->create(['user_id' => auth()->id()]);
 
@@ -43,7 +43,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function an_authenticated_user_cannot_view_the_profiles_of_others()
     {
-        $this->be(factory('App\User')->create());
+        $this->authenticate();
         $profile = factory('App\Profile')->create();
         $this->get($profile->path())->assertStatus(403);
     }
@@ -51,7 +51,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_profile_requires_a_profile_name()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->authenticate();
         $attributes = factory('App\Profile')->raw(['profile_name' => '']);
         $this->post('/profiles', $attributes)->assertSessionHasErrors('profile_name');
     }
@@ -59,7 +59,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_profile_requires_a_first_name()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->authenticate();
         $attributes = factory('App\Profile')->raw(['first_name' => '']);
         $this->post('/profiles', $attributes)->assertSessionHasErrors('first_name');
     }
@@ -67,7 +67,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_profile_requires_a_last_name()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->authenticate();
         $attributes = factory('App\Profile')->raw(['last_name' => '']);
         $this->post('/profiles', $attributes)->assertSessionHasErrors('last_name');
     }
@@ -75,7 +75,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_profile_requires_a_date_of_birth()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->authenticate();
         $attributes = factory('App\Profile')->raw(['date_of_birth' => '']);
         $this->post('/profiles', $attributes)->assertSessionHasErrors('date_of_birth');
     }

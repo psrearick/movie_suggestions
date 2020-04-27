@@ -13,4 +13,11 @@ class Movie extends Model
     {
         return "/movies/{$this->id}";
     }
+
+    public function profiles()
+    {
+        return $this
+            ->belongsToMany('App\Profile')
+            ->withPivot('watch_list', 'favorite', 'seen', 'rating');
+    }
 }

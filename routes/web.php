@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/profiles/{profile}', 'ProfileController@show');
     Route::post('/profiles', 'ProfileController@store');
 
+    Route::post('/profiles/{profile}/movies', 'MovieProfilesController@store');
+
     Route::get('/home', 'HomeController@index')->name('home');
 });
 

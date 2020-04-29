@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/profiles', 'ProfileController@store');
 
     Route::post('/profiles/{profile}/movies', 'MovieProfilesController@store');
+    Route::post('/movies/{movie}/profiles/{profile}', 'MovieProfilesController@store');
+    Route::patch('/movies/{movie}/profiles/{profile}', 'MovieProfilesController@update');
 
     Route::get('/home', 'HomeController@index')->name('home');
 });

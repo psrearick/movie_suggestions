@@ -31,6 +31,7 @@ class MoviesTest extends TestCase
 
     public function test_a_user_can_view_a_movie()
     {
+        $this->authenticate();
         $this->withoutExceptionHandling();
         $movie = factory('App\Movie')->create();
 

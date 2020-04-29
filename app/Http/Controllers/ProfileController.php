@@ -60,7 +60,7 @@ class ProfileController extends Controller
     public function show(Profile $profile)
     {
         if (auth()->user()->isNot($profile->user)) {
-            abort(403);
+            return response(null, 403);
         }
 
         return view('profiles.show', compact('profile'));

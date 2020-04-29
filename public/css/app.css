@@ -633,6 +633,7 @@ video {
   color: #fff;
   font-weight: 700;
   text-decoration: none;
+  display: inline-block;
 }
 
 .btn:hover {

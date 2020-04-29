@@ -22,10 +22,10 @@ class ProfilesTest extends TestCase
             'last_name' => $this->faker->lastName,
             'date_of_birth' => $this->faker->date,
         ];
-        $this->post('/profiles', $attributes)->assertRedirect('/profiles');
+        $this->post('/profiles', $attributes)->assertRedirect('/profiles/change-profile');
         $this->assertDatabaseHas('profiles', $attributes);
 
-        $this->get('/profiles')->assertSee($attributes['profile_name']);
+        $this->get('/profiles/change-profile')->assertSee($attributes['profile_name']);
     }
 
     /** @test */
@@ -104,6 +104,6 @@ class ProfilesTest extends TestCase
     /** @test */
     public function guests_cannot_view_profiles()
     {
-        $this->get('/profiles')->assertRedirect('login');
+        $this->get('/profiles/change-profile')->assertRedirect('login');
     }
 }

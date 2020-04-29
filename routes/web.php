@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/profiles', 'ProfileController@index');
+    Route::get('/profiles/change-profile', 'ProfileController@index');
     Route::get('profiles/create', 'ProfileController@create');
     Route::get('/profiles/{profile}', 'ProfileController@show');
     Route::post('/profiles', 'ProfileController@store');

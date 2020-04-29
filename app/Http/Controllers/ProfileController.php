@@ -46,9 +46,9 @@ class ProfileController extends Controller
 
         // $attributes['user_id'] = auth()->id();
 
-        auth()->user()->profiles()->create($attributes);
+        $profile = auth()->user()->profiles()->create($attributes);
 
-        return redirect('/profiles');
+        return redirect('/profiles/change-profile');
     }
 
     /**

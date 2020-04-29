@@ -1,17 +1,17 @@
-@extends('layouts.profile')
+@extends('layouts.account')
 
-@section('content')
-<header class="flex items-center mb-4 py-4">
+@section('account-content')
+<div class="flex items-center mb-4 py-4">
     <div class="flex justify-between w-full items-center">
         <div>
             <h1 class="text-2xl">Switch Profile</h1>
         </div>
         <a class="btn" href="/profiles/create">New Profile</a>
     </div>
-</header>
+</div>
 
 
-<main class="md:flex md:flex-wrap -mx-3">
+<div class="md:flex md:flex-wrap -mx-3">
     @forelse ($profiles as $profile)
     <a href="{{ $profile->path() }}" class="md:w-1/3 px-3 pb-6">
         <div class="card-btn-dark">
@@ -26,5 +26,5 @@
         <p>No Profiles Yet</p>
     </div>
     @endforelse
-</main>
+</div>
 @endsection

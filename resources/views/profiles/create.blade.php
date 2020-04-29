@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.account')
 
-@section('content')
+@section('account-content')
 <h1>Create a Profile</h1>
 
 <form method="POST" action="/profiles">

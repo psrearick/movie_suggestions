@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MoviesController extends Controller
 {
@@ -16,7 +17,25 @@ class MoviesController extends Controller
 
     public function show(Movie $movie)
     {
-        return view('movies.show', compact('movie'));
+        $movieProfiles = $movie->profiles() ?: null;
+
+        $profiles = Auth::check()
+            ? Auth::user()->profiles()->get()
+            : null;
+
+        $profile = $profiles
+            ? $profiles->first()
+            : null;
+
+        $thisMovieProfiles = $profile
+            ? $profile->movies()->where('movies.id', $movie->id)->get()
+            : null;
+
+        $thisMovieProfile = $thisMovieProfiles
+            ? $thisMovieProfiles->first()->pivot
+            : null;
+
+        return view('movies.show', compact('movie', 'profile', 'thisMovieProfile', 'movieProfiles'));
     }
 
     public function store()

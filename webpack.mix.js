@@ -4,7 +4,12 @@ mix.js("resources/js/app.js", "public/js");
 
 const tailwindcss = require("tailwindcss");
 
-mix.sass("resources/sass/app.scss", "public/css").options({
-    processCssUrls: false,
-    postCss: [tailwindcss("tailwind.config.js")]
-});
+mix.sass("resources/sass/app.scss", "public/css")
+    .options({
+        processCssUrls: false,
+        postCss: [tailwindcss("tailwind.config.js")]
+    })
+    .copy(
+        "node_modules/@fortawesome/fontawesome-free/webfonts",
+        "public/webfonts"
+    );

@@ -13,6 +13,16 @@ class Profile extends Model
         return "/profiles/{$this->id}";
     }
 
+    public function setActive()
+    {
+        session(['profile' => $this->id]);
+    }
+
+    public function isActive()
+    {
+        return session('profile') == $this->id;
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');

@@ -12,9 +12,8 @@
             <div class="pb-4">
                 <h2 class="text-lg text-gray-500">Account</h2>
                 <ul>
-                    <li><a class="hover:text-yellow-500"
-                            href="/profiles/{{ auth()->user()->profiles()->first()->id }}">Profile Details</a></li>
-                    <li><a class="hover:text-yellow-500" href="/profiles/change-profile">Switch Profile</a></li>
+                    <li><a class="hover:text-yellow-500" href="/profiles">Profile Details</a></li>
+                    <li><a class="hover:text-yellow-500" href="/profiles/change-profile">Change Profile</a></li>
                 </ul>
             </div>
             <div>

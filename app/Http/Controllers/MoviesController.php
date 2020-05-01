@@ -19,19 +19,15 @@ class MoviesController extends Controller
     {
         $movieProfiles = $movie->profiles() ?: null;
 
-        $profiles = Auth::check()
-            ? Auth::user()->profiles()->get()
-            : null;
-
-        $profile = $profiles
-            ? $profiles->first()
+        $profile = Auth::check()
+            ? Auth::user()->profile
             : null;
 
         $thisMovieProfiles = $profile
             ? $profile->movies()->where('movies.id', $movie->id)->get()
             : null;
 
-        $thisMovieProfile = $thisMovieProfiles
+        $thisMovieProfile = $thisMovieProfiles->first()
             ? $thisMovieProfiles->first()->pivot
             : null;
 

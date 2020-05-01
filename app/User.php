@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,8 +43,13 @@ class User extends Authenticatable
         return $this->hasMany('App\Profile');
     }
 
-    public function profile()
+    public function activeProfile()
     {
-        return $this->profiles->first();
+        $profileId = session('profile');
+        $profile = $this->profiles()->find($profileId);
+        if ($profileId && !$profile) {
+            throw new AuthenticationException('Invalid Profile ID');
+        }
+        return $profileId ? $profile : null;
     }
 }

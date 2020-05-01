@@ -14,7 +14,6 @@ class ProfilesTest extends TestCase
     /** @test */
     public function a_user_can_create_a_profile()
     {
-        $this->withoutExceptionHandling();
         $this->authenticate();
         $attributes = [
             'profile_name' => $this->faker->word,
@@ -22,20 +21,39 @@ class ProfilesTest extends TestCase
             'last_name' => $this->faker->lastName,
             'date_of_birth' => $this->faker->date,
         ];
-        $this->post('/profiles', $attributes)->assertRedirect('/profiles/change-profile');
+        $this->post('/profiles', $attributes)->assertRedirect('/profiles');
         $this->assertDatabaseHas('profiles', $attributes);
-
         $this->get('/profiles/change-profile')->assertSee($attributes['profile_name']);
+        $this->get('/profiles')->assertSee($attributes['first_name']);
     }
 
     /** @test */
-    public function a_user_can_view_their_profile()
+    public function a_user_cannot_view_their_profile_if_none_is_active()
     {
         $this->authenticate();
-        $this->withoutExceptionHandling();
         $profile = factory('App\Profile')->create(['user_id' => auth()->id()]);
+        $this->get('/profiles')->assertRedirect('profiles/change-profile');
+    }
 
-        $this->get($profile->path())
+    /** @test */
+    public function a_user_can_view_their_active_profile()
+    {
+        $this->authenticate();
+        $profile = factory('App\Profile')->create(['user_id' => auth()->id()]);
+        $profile->setActive();
+        $this->get('/profiles')
+            ->assertSee($profile->first_name)
+            ->assertSee($profile->last_name);
+    }
+
+    /** @test */
+    public function a_user_can_change_their_active_profile()
+    {
+        $this->withoutExceptionHandling();
+        $this->authenticate();
+        $profile = factory('App\Profile')->create(['user_id' => auth()->id()]);
+        $this->post('/profiles/change-profile', ['profile' => $profile->id])->assertRedirect('/profiles');
+        $this->get('/profiles')
             ->assertSee($profile->first_name)
             ->assertSee($profile->last_name);
     }
@@ -43,9 +61,11 @@ class ProfilesTest extends TestCase
     /** @test */
     public function an_authenticated_user_cannot_view_the_profiles_of_others()
     {
+        $this->withoutExceptionHandling();
         $this->authenticate();
         $profile = factory('App\Profile')->create();
-        $this->get($profile->path())->assertStatus(403);
+        $profile->setActive();
+        $this->get('/profiles')->assertStatus(403);
     }
 
     /** @test */
@@ -83,7 +103,7 @@ class ProfilesTest extends TestCase
     /** @test */
     public function guests_cannot_view_create_profiles_page()
     {
-        $attributes = factory('App\Profile')->raw();
+        factory('App\Profile')->raw();
         $this->get('/profiles/create')->assertRedirect('login');
     }
 
@@ -97,8 +117,8 @@ class ProfilesTest extends TestCase
     /** @test */
     public function guests_cannot_view_a_single_profile()
     {
-        $profile = factory('App\Profile')->create();
-        $this->get($profile->path())->assertRedirect('login');
+        factory('App\Profile')->create();
+        $this->get('/profiles')->assertRedirect('login');
     }
 
     /** @test */

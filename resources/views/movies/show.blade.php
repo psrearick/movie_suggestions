@@ -11,9 +11,10 @@
 
     <div class="movie pl-6">
         <div class="movie-header">
-            <div class="mb-5 flex items-center">
-                <p class="text-4xl">{{ $movie->title }}</p>
-                <p class="ml-2 text-2xl text-gray-700 font-thin">2020</p>
+            <div class="mb-5">
+                <p class="text-4xl">{{ $movie->title }}
+                    <span class="ml-2 text-2xl text-gray-700 font-thin">2020</span>
+                </p>
             </div>
             <div class="w-full my-10">
                 @auth
@@ -24,7 +25,7 @@
                     }}" method="POST" id="favorite-form">
                         @method('PATCH')
                         @csrf
-                        @if ($thisMovieProfile->favorite > 0)
+                        @if ($thisMovieProfile && $thisMovieProfile->favorite > 0)
                         <input type="hidden" value="0" name="favorite" id="favorite">
                         <a class="btn-outline my-3" onclick="document.getElementById('favorite-form').submit()">
                             <i class="fa fa-heart"></i>
@@ -55,6 +56,7 @@
                     <p class="text-lg">9/10<i class="fa fa-star text-yellow-500 pl-1"></i></p>
 
                 </div>
+                @auth
                 <div class="w-3/4 px-3">
                     <label>Rate This Movie</label>
                     <br>
@@ -73,6 +75,7 @@
                         <option value="10">10</option>
                     </select>
                 </div>
+                @endauth
             </div>
 
         </div>

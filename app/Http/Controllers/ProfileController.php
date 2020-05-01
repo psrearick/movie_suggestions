@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Profile;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -44,11 +46,10 @@ class ProfileController extends Controller
             'date_of_birth' => 'required',
         ]);
 
-        // $attributes['user_id'] = auth()->id();
-
         $profile = auth()->user()->profiles()->create($attributes);
+        $profile->setActive();
 
-        return redirect('/profiles/change-profile');
+        return redirect('/profiles');
     }
 
     /**
@@ -57,13 +58,30 @@ class ProfileController extends Controller
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $profile)
+    public function show()
     {
+
+        try {
+            $profile = auth()->user()->activeProfile();
+        } catch (AuthenticationException $e) {
+            return response(null, 403);
+        }
+
+        if (empty($profile)) {
+            return redirect('/profiles/change-profile');
+        }
+
         if (auth()->user()->isNot($profile->user)) {
             return response(null, 403);
         }
 
         return view('profiles.show', compact('profile'));
+    }
+
+    public function change(Request $request)
+    {
+        Profile::find($request->profile)->setActive();
+        return redirect('/profiles');
     }
 
     /**

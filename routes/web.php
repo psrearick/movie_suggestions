@@ -19,8 +19,9 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/profiles/change-profile', 'ProfileController@index');
+    Route::post('/profiles/change-profile', 'ProfileController@change');
     Route::get('profiles/create', 'ProfileController@create');
-    Route::get('/profiles/{profile}', 'ProfileController@show');
+    Route::get('/profiles', 'ProfileController@show');
     Route::post('/profiles', 'ProfileController@store');
 
     Route::post('/profiles/{profile}/movies', 'MovieProfilesController@store');

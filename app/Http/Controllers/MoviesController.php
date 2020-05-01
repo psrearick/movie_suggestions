@@ -20,16 +20,15 @@ class MoviesController extends Controller
         $movieProfiles = $movie->profiles() ?: null;
 
         $profile = Auth::check()
-            ? Auth::user()->profile
+            ? Auth::user()->activeProfile()
             : null;
 
-        $thisMovieProfiles = $profile
-            ? $profile->movies()->where('movies.id', $movie->id)->get()
-            : null;
+        $thisMovieProfile = '';
 
-        $thisMovieProfile = $thisMovieProfiles->first()
-            ? $thisMovieProfiles->first()->pivot
-            : null;
+        if ($profile) {
+            $movieProfileRelationship = $movie->profiles->find($profile->id);
+            $thisMovieProfile = $movieProfileRelationship ? $movieProfileRelationship->pivot : '';
+        }
 
         return view('movies.show', compact('movie', 'profile', 'thisMovieProfile', 'movieProfiles'));
     }

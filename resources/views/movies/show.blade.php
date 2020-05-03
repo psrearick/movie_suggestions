@@ -27,13 +27,15 @@
                         @csrf
                         @if ($thisMovieProfile && $thisMovieProfile->favorite > 0)
                         <input type="hidden" value="0" name="favorite" id="favorite">
-                        <a class="btn-outline my-3" onclick="document.getElementById('favorite-form').submit()">
-                            <i class="fa fa-heart"></i>
+                        <a class="text-red-500 hover:text-red-700 mt-3"
+                            onclick="document.getElementById('favorite-form').submit()">
+                            <i class="fa fa-heart pr-2"></i>
                             Remove from Favorites</a>
                         @else
                         <input type="hidden" value="1" name="favorite" id="favorite">
-                        <a class="btn-outline my-3" onclick="document.getElementById('favorite-form').submit()">
-                            <i class="far fa-heart"></i>
+                        <a class="text-red-500 hover:text-red-700 mt-3 border-none"
+                            onclick="document.getElementById('favorite-form').submit()">
+                            <i class="far fa-heart pr-2"></i>
                             Add to Favorites</a>
                         @endif
                     </form>
@@ -41,7 +43,7 @@
                 </div>
                 @endauth
                 <div>
-                    <p>
+                    <p class="text-sm text-gray-600">
 
                         @if ($movieProfiles->where('favorite', true)->count() == 1)
                         {{ $movieProfiles->where('favorite', true)->count() }} person has favorited this movie.
@@ -51,29 +53,48 @@
                     </p>
                 </div>
             </div>
-            <div class="flex flex-wrap -mx-3 my-5">
-                <div class="w-1/4 px-3">
-                    <p class="text-lg">9/10<i class="fa fa-star text-yellow-500 pl-1"></i></p>
+            <div class="flex flex-wrap -mx-3 my-5 border-solid border-gray-600 border-t border-b">
+                <div class="w-1/4 px-3 py-3 border-r border-gray-600 border-solid">
+                    <div class="flex">
+                        <p class="text-4xl">
+                            <i class="fa fa-star text-yellow-500 px-2"></i>
+                        </p>
+                        <div>
+                            <p class="text-sm text-gray-600">
+                                <span
+                                    class="text-lg text-white">{{ round($movieProfiles->where('rating', '>', 0)->average('rating'), 1) }}</span>
+                                <span class="align-top">/10</span>
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                {{ $movieProfiles->where('rating', '>', 0)->count() }} Ratings
+                            </p>
+                        </div>
+                    </div>
 
                 </div>
                 @auth
-                <div class="w-3/4 px-3">
-                    <label>Rate This Movie</label>
-                    <br>
-                    <i class="far fa-star"></i>
-                    <select name="rating" id="movie-rating" class="text-black">
-                        <option value="">--Select a Rating--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
+                <div class="w-3/4 px-3 py-3">
+                    @if ($profile)
+                    <p>Rate This Movie</p>
+                    <form id="rating-form" action="{{
+                        $movie->path() . '/profiles/' . $profile->id
+                    }}" method="POST">
+                        @method('PATCH')
+                        @csrf
+                        <input type="hidden" value="" name="rating" id="rating">
+                        @foreach(range(1,10) as $i)
+                        <button
+                            onclick="document.getElementById('rating').setAttribute('value', {{ $i }}); document.getElementById('rating-form').submit()">
+                            @if($thisMovieProfile ? $thisMovieProfile->rating - $i >= 0 : false )
+                            <i class="fas fa-star text-xl text-yellow-500 hover:text-yellow-700"></i>
+                            @else
+                            <i class="far fa-star text-xl text-yellow-500 hover:text-yellow-700"></i>
+                            @endif
+                        </button>
+                        @endforeach
+
+                    </form>
+                    @endif
                 </div>
                 @endauth
             </div>

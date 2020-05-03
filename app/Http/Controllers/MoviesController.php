@@ -17,7 +17,13 @@ class MoviesController extends Controller
 
     public function show(Movie $movie)
     {
-        $movieProfiles = $movie->profiles() ?: null;
+        $movieProfiles = $movie->profiles()->get()->map(function ($movieProfile) {
+            $movieProfile['watch_list'] = $movieProfile->pivot->watch_list;
+            $movieProfile['favorite'] = $movieProfile->pivot->favorite;
+            $movieProfile['seen'] = $movieProfile->pivot->seen;
+            $movieProfile['rating'] = $movieProfile->pivot->rating;
+            return $movieProfile;
+        }) ?: null;
 
         $profile = Auth::check()
             ? Auth::user()->activeProfile()
